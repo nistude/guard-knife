@@ -1,0 +1,6 @@
+guard 'knife' do
+  watch(%r{^cookbooks/.+$})
+  watch(%r{^data_bags/.+$})
+  watch(%r{^environments/.+$})
+  watch(%r{^roles/.+$})
+end
