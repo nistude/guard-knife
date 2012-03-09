@@ -60,4 +60,4 @@ create a topic branch for every separate change you make.
 Author
 ------
 
-[Nikolay Sturm](http://blog.nistude.de/)
+[Nikolay Sturm](http://blog.nistu.de/)
