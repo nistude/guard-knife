@@ -10,9 +10,7 @@ module Guard
     # @param [Hash] options the custom Guard options
     def initialize(watchers = [], options = {})
       super
-      @options = {
-        :config => '~/.chef/knife.rb'
-      }.update(options)
+      @options = {}.update(options)
     end
 
     # Call once when Guard starts. Please override initialize method to init stuff.
