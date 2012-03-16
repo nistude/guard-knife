@@ -3,7 +3,7 @@ require 'guard/guard'
 
 module Guard
   class Knife < Guard
-    VERSION = '0.0.1'
+    VERSION = '0.1.0'
 
     # Initialize a Guard.
     # @param [Array<Guard::Watcher>] watchers the Guard file watchers
