@@ -79,39 +79,35 @@ module Guard
     end
 
     def upload_cookbook(cookbook)
-      ::Guard::Notifier.notify("Uploading cookbook #{cookbook}")
       if system("knife cookbook upload #{cookbook} #{knife_options}")
         ::Guard::Notifier.notify("Cookbook #{cookbook} uploaded")
       else
-        ::Guard::Notifier.notify("Cookbook #{cookbook} failed to upload")
+        ::Guard::Notifier.notify("Cookbook #{cookbook} failed to upload", :image => :failed)
       end
     end
 
     def upload_databag(data_bag, item)
-      ::Guard::Notifier.notify("Uploading databag #{data_bag}")
       if system("knife data bag from file #{data_bag} #{item} #{knife_options}")
         ::Guard::Notifier.notify("Data bag #{data_bag} upload")
       else
-        ::Guard::Notifier.notify("Data bag #{data_bag} failed to upload")
+        ::Guard::Notifier.notify("Data bag #{data_bag} failed to upload", :image => :failed)
       end
     end
 
     def upload_environment(environment)
-      ::Guard::Notifier.notify("Uploading environment #{environment}")
       if system("knife environment from file #{environment} #{knife_options}")
         ::Guard::Notifier.notify("Environment #{environment} uploaded")
       else
-        ::Guard::Notifier.notify("Environment #{environment} failed to upload")
+        ::Guard::Notifier.notify("Environment #{environment} failed to upload", :image => :failed)
       end
     end
 
     def upload_role(role)
-      ::Guard::Notifier.notify("Uploading role #{role}")
       if system("knife role from file #{role} #{knife_options}")
         ::Guard::Notifier.notify("Role #{role} uploaded")
       else
-        ::Guard::Notifier.notify("Role #{role} upload failed")
-      end        
+        ::Guard::Notifier.notify("Role #{role} upload failed", :image => :failed)
+      end
     end
   end
 end
