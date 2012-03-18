@@ -1,3 +1,7 @@
+0.1.1
+- only upload each cookbook once, even if multiple files change
+- better title for notifications
+
 0.1.0
 - introduce notifications, from Alan Harper
 
