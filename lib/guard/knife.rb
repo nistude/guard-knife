@@ -39,9 +39,8 @@ module Guard
     # @param [Array<String>] paths the changes files or paths
     # @raise [:task_has_failed] when run_on_change has failed
     def run_on_change(paths)
+      paths = normalize(paths)
       paths.each do |path|
-        next if path.match(/\.swp$/)  # vim swap file
-
         upload(path)
       end
     end
@@ -52,10 +51,20 @@ module Guard
     def run_on_deletion(paths)
     end
 
+    def normalize(paths)
+      paths.map! do |path|
+        next if path.match(/\.swp$/)  # vim swap file
+
+        # only upload cookbook once in case many files change
+        path.gsub(/^(cookbooks\/[^\/]*)\/.*$/, '\1')
+      end
+      paths.compact.uniq
+    end
+
     def upload(path)
-      if path.match(/^cookbooks\/([^\/]*)\//)
+      if path.match(/^cookbooks\/([^\/]*)/)
         upload_cookbook($1)
-      elsif path.match(/^data_bags\/(.*)\/(.*)$/)
+      elsif path.match(/^data_bags\/(.*)\/(.*).json$/)
         data_bag = $1
         item = $2
         upload_databag(data_bag, item)
@@ -80,33 +89,33 @@ module Guard
 
     def upload_cookbook(cookbook)
       if system("knife cookbook upload #{cookbook} #{knife_options}")
-        ::Guard::Notifier.notify("Cookbook #{cookbook} uploaded")
+        ::Guard::Notifier.notify("Cookbook #{cookbook} uploaded", :title => 'Knife')
       else
-        ::Guard::Notifier.notify("Cookbook #{cookbook} failed to upload", :image => :failed)
+        ::Guard::Notifier.notify("Cookbook #{cookbook} failed to upload", :title => 'Knife', :image => :failed)
       end
     end
 
     def upload_databag(data_bag, item)
       if system("knife data bag from file #{data_bag} #{item} #{knife_options}")
-        ::Guard::Notifier.notify("Data bag #{data_bag} upload")
+        ::Guard::Notifier.notify("Data bag #{data_bag} upload", :title => 'Knife')
       else
-        ::Guard::Notifier.notify("Data bag #{data_bag} failed to upload", :image => :failed)
+        ::Guard::Notifier.notify("Data bag #{data_bag} failed to upload", :title => 'Knife', :image => :failed)
       end
     end
 
     def upload_environment(environment)
       if system("knife environment from file #{environment} #{knife_options}")
-        ::Guard::Notifier.notify("Environment #{environment} uploaded")
+        ::Guard::Notifier.notify("Environment #{environment} uploaded", :title => 'Knife')
       else
-        ::Guard::Notifier.notify("Environment #{environment} failed to upload", :image => :failed)
+        ::Guard::Notifier.notify("Environment #{environment} failed to upload", :title => 'Knife', :image => :failed)
       end
     end
 
     def upload_role(role)
       if system("knife role from file #{role} #{knife_options}")
-        ::Guard::Notifier.notify("Role #{role} uploaded")
+        ::Guard::Notifier.notify("Role #{role} uploaded", :title => 'Knife')
       else
-        ::Guard::Notifier.notify("Role #{role} upload failed", :image => :failed)
+        ::Guard::Notifier.notify("Role #{role} upload failed", :title => 'Knife', :image => :failed)
       end
     end
   end
