@@ -4,14 +4,15 @@ Guard::Knife
 Knife guard allows to update cookbooks, data bags, environments, and roles
 automatically when files are modified.
 
-It differs from Guard::Chef in that it does not depend on activesupport and
-it uses knife directly instead of relying on some rake tasks being around.
+It differs from [Guard::Chef][guard-chef-repo] in that it does not depend on
+activesupport and it uses knife directly instead of relying on some rake tasks
+being around.
 
 Install
 -------
 
 Please be sure to have [Guard](https://github.com/guard/guard) installed before
-continueing.
+continuing.
 
 Install the gem:
 
@@ -64,3 +65,5 @@ Author
 ------
 
 [Nikolay Sturm](http://blog.nistu.de/)
+
+[guard-chef-repo]: https://github.com/dreamr/guard-chef#readme
