@@ -1,3 +1,6 @@
+0.1.2
+- unbreak data bag handling, from Alan Harper
+
 0.1.1
 - only upload each cookbook once, even if multiple files change
 - better title for notifications

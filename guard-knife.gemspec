@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = '1.3.5'
 
   s.name              = 'guard-knife'
-  s.version           = '0.1.1'
-  s.date              = '2012-03-18'
+  s.version           = '0.1.2'
+  s.date              = '2012-05-17'
   s.rubyforge_project = ''
 
   s.summary     = "Guard for Chef using knife"
