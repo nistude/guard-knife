@@ -64,10 +64,9 @@ module Guard
     def upload(path)
       if path.match(/^cookbooks\/([^\/]*)/)
         upload_cookbook($1)
-      elsif path.match(/^data_bags\/(.*)\/(.*).json$/)
+      elsif path.match(/^data_bags\/(.*)\/.*\.json$/)
         data_bag = $1
-        item = $2
-        upload_databag(data_bag, item)
+        upload_databag(data_bag, path)
       elsif path.match(/^(environments\/.*\.rb)$/)
         upload_environment($1)
       elsif path.match(/^(roles\/.*.rb)$/)
@@ -95,11 +94,12 @@ module Guard
       end
     end
 
-    def upload_databag(data_bag, item)
-      if system("knife data bag from file #{data_bag} #{item} #{knife_options}")
-        ::Guard::Notifier.notify("Data bag #{data_bag} upload", :title => 'Knife')
+    def upload_databag(data_bag, path)
+      item = File.basename path, '.json'
+      if system("knife data bag from file #{data_bag} #{path} #{knife_options}")
+        ::Guard::Notifier.notify("Data bag item #{data_bag}::#{item} uploaded", :title => 'Knife')
       else
-        ::Guard::Notifier.notify("Data bag #{data_bag} failed to upload", :title => 'Knife', :image => :failed)
+        ::Guard::Notifier.notify("Data bag item #{data_bag}::#{item} failed to upload", :title => 'Knife', :image => :failed)
       end
     end
 
