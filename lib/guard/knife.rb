@@ -69,7 +69,7 @@ module Guard
         upload_databag(data_bag, path)
       elsif path.match(/^(environments\/.*\.rb)$/)
         upload_environment($1)
-      elsif path.match(/^(roles\/.*.rb)$/)
+      elsif path.match(/^(roles\/.*.(rb|json))$/)
         upload_role($1)
       end
     end
