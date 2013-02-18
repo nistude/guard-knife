@@ -67,10 +67,12 @@ module Guard
       elsif path.match(/^data_bags\/(.*)\/.*\.json$/)
         data_bag = $1
         upload_databag(data_bag, path)
-      elsif path.match(/^(environments\/.*\.rb)$/)
+      elsif path.match(/^(environments\/.*\.(rb|json))$/)
         upload_environment($1)
-      elsif path.match(/^(roles\/.*.rb)$/)
+      elsif path.match(/^(roles\/.*.(rb|json))$/)
         upload_role($1)
+      elsif path.match(/^(nodes\/.*.json)$/)
+        upload_node($1)
       end
     end
 
@@ -116,6 +118,14 @@ module Guard
         ::Guard::Notifier.notify("Role #{role} uploaded", :title => 'Knife')
       else
         ::Guard::Notifier.notify("Role #{role} upload failed", :title => 'Knife', :image => :failed)
+      end
+    end
+
+    def upload_node(node)
+      if system("knife node from file #{node} #{knife_options}")
+        ::Guard::Notifier.notify("Node #{node} uploaded", :title => 'Knife')
+      else
+        ::Guard::Notifier.notify("Node #{node} upload failed", :title => 'Knife', :image => :failed)
       end
     end
   end
